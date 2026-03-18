@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex POS | Smart Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            background-color: #05070a !important;
+            margin: 0;
+            color: white;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(15, 20, 30, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .item-row:active {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .neon-text {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Animasi Glow untuk Total */
+        .total-glow {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="flex justify-between items-center mb-8">
+        <button onclick="window.location.href='dashboard.html'" class="text-gray-500 text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+            ← Back to Node
+        </button>
+        <div class="text-right">
+            <h1 class="text-xl font-bold neon-text">VORTEX POS v1.0</h1>
+            <p class="text-[9px] text-gray-600 uppercase">Terminal ID: #TX-770</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 space-y-6">
+            <div class="relative">
+                <input type="text" placeholder="Scan Barcode or Search Item..." class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl focus:border-cyan-500 outline-none transition-all text-sm">
+                <span class="absolute right-4 top-4 opacity-30">🔍</span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div onclick="addToCart('Software License', 250)" class="glass-card p-4 text-center cursor-pointer hover:border-cyan-500/50 transition-all active:scale-95">
+                    <span class="text-3xl block mb-2">💿</span>
+                    <h3 class="text-xs font-bold uppercase tracking-tighter">SW License</h3>
+                    <p class="text-cyan-400 font-mono mt-1">RM 250</p>
+                </div>
+                <div onclick="addToCart('Cloud Storage', 50)" class="glass-card p-4 text-center cursor-pointer hover:border-cyan-500/50 transition-all active:scale-95">
+                    <span class="text-3xl block mb-2">☁️</span>
+                    <h3 class="text-xs font-bold uppercase tracking-tighter">Cloud 1TB</h3>
+                    <p class="text-cyan-400 font-mono mt-1">RM 50</p>
+                </div>
+                <div onclick="addToCart('AI Processing', 120)" class="glass-card p-4 text-center cursor-pointer hover:border-cyan-500/50 transition-all active:scale-95">
+                    <span class="text-3xl block mb-2">🧠</span>
+                    <h3 class="text-xs font-bold uppercase tracking-tighter">AI Node</h3>
+                    <p class="text-cyan-400 font-mono mt-1">RM 120</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-1">
+            <div class="glass-card p-6 flex flex-col h-full min-h-[500px] total-glow">
+                <h2 class="text-sm font-bold uppercase tracking-[0.2em] mb-6 text-gray-400">Current Order</h2>
+                
+                <div id="cart-items" class="flex-1 space-y-4 overflow-y-auto mb-6">
+                    <p class="text-gray-600 text-xs italic text-center mt-10">Terminal Empty. Ready to Scan.</p>
+                </div>
+
+                <div class="border-t border-white/10 pt-6 space-y-3">
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Subtotal</span>
+                        <span id="subtotal">RM 0.00</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Tax (6%)</span>
+                        <span id="tax">RM 0.00</span>
+                    </div>
+                    <div class="flex justify-between text-xl font-bold mt-2">
+                        <span>Total</span>
+                        <span class="neon-text" id="total">RM 0.00</span>
+                    </div>
+                </div>
+
+                <button onclick="checkout()" class="w-full mt-8 py-4 bg-gradient-to-r from-blue-700 to-blue-500 rounded-xl font-bold uppercase tracking-[0.3em] text-[10px] shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
+                    Execute Payment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateUI();
+        }
+
+        function updateUI() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            
+            let sub = 0;
+            cart.forEach((item, index) => {
+                sub += item.price;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl item-row">
+                        <div>
+                            <h4 class="text-xs font-bold">${item.name}</h4>
+                            <p class="text-[10px] text-gray-500 font-mono">RM ${item.price}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" class="text-red-500 text-xs">✕</button>
+                    </div>
+                `;
+            });
+
+            const tax = sub * 0.06;
+            const total = sub + tax;
+
+            document.getElementById('subtotal').innerText = `RM ${sub.toFixed(2)}`;
+            document.getElementById('tax').innerText = `RM ${tax.toFixed(2)}`;
+            document.getElementById('total').innerText = `RM ${total.toFixed(2)}`;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateUI();
+        }
+
+        function checkout() {
+            if(cart.length === 0) return alert('Sila tambah item dahulu!');
+            alert('Payment Encrypted & Processed Successfully!');
+            cart = [];
+            updateUI();
+        }
+    </script>
+</body>
+</html>
