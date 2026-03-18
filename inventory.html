@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex | Inventory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            background-color: #05070a !important;
+            margin: 0;
+            color: white;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(15, 20, 30, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .neon-text-cyan {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Status colors */
+        .status-low { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+        .status-good { background: #10b981; box-shadow: 0 0 10px #10b981; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="flex justify-between items-center mb-8">
+        <button onclick="window.location.href='dashboard.html'" class="text-gray-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+            ← Main Node
+        </button>
+        <div class="text-right">
+            <h1 class="text-xl font-bold neon-text-cyan uppercase">Warehouse Delta</h1>
+            <p class="text-[9px] text-gray-600">INVENTORY CONTROL SYSTEM</p>
+        </div>
+    </div>
+
+    <div class="space-y-6">
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-panel p-4 border-l-2 border-cyan-500">
+                <p class="text-[10px] text-gray-500 uppercase font-bold">Total Items</p>
+                <h3 class="text-xl font-bold">1,402</h3>
+            </div>
+            <div class="glass-panel p-4 border-l-2 border-red-500">
+                <p class="text-[10px] text-gray-500 uppercase font-bold">Low Stock</p>
+                <h3 class="text-xl font-bold text-red-400">03</h3>
+            </div>
+        </div>
+
+        <div class="glass-panel p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-sm font-bold uppercase tracking-widest">Asset List</h2>
+                <button class="bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-md text-[10px] font-bold">+ ADD ITEM</button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="text-gray-500 border-b border-white/5 uppercase text-[10px]">
+                        <tr>
+                            <th class="pb-3">Item Name</th>
+                            <th class="pb-3">Category</th>
+                            <th class="pb-3">Stock Level</th>
+                            <th class="pb-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">
+                                <div class="font-bold">Software License</div>
+                                <div class="text-[9px] text-gray-600 font-mono">ID: VTX-001</div>
+                            </td>
+                            <td class="py-4 text-xs">Digital</td>
+                            <td class="py-4 w-48">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-1 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full w-[85%]"></div>
+                                    </div>
+                                    <span class="text-[10px] font-mono">85%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-right">
+                                <button class="text-cyan-500 text-xs">Edit</button>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">
+                                <div class="font-bold">AI Processing Node</div>
+                                <div class="text-[9px] text-gray-600 font-mono">ID: VTX-044</div>
+                            </td>
+                            <td class="py-4 text-xs">Hardware</td>
+                            <td class="py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-1 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-red-500 h-full w-[15%] shadow-[0_0_8px_#ef4444]"></div>
+                                    </div>
+                                    <span class="text-[10px] font-mono text-red-400">15%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-right">
+                                <button class="text-cyan-500 text-xs">Restock</button>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">
+                                <div class="font-bold">Cloud Server 1TB</div>
+                                <div class="text-[9px] text-gray-600 font-mono">ID: VTX-109</div>
+                            </td>
+                            <td class="py-4 text-xs">Digital</td>
+                            <td class="py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-1 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-cyan-500 h-full w-[60%]"></div>
+                                    </div>
+                                    <span class="text-[10px] font-mono text-cyan-400">60%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-right">
+                                <button class="text-cyan-500 text-xs">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
