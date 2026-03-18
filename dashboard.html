@@ -3,104 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortex ERP | Command Center</title>
+    <title>Vortex ERP | Ultra Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Mono&display=swap');
 
-        /* 1. Enhanced Dark Background & Radial Glow */
+        :root {
+            --neon-gold: #ffcc00;
+            --neon-blue: #00d4ff;
+            --deep-bg: #020408;
+        }
+
         html, body {
-            background-color: #030406 !important;
-            /* Cahaya biru lembut di tengah skrin */
-            background-image: radial-gradient(circle at 50% 50%, #0a192f 0%, #030406 70%);
-            margin: 0;
+            background-color: var(--deep-bg) !important;
+            background-image: radial-gradient(circle at 50% 50%, #0a1120 0%, #020408 100%);
             color: white;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            margin: 0;
             overflow-x: hidden;
         }
 
+        /* 1. Glassmorphism Sidebar & Cards */
         .glass-panel {
             background: rgba(10, 15, 25, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 212, 255, 0.08);
-            border-radius: 24px;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
         }
 
-        .neon-border {
-            border-left: 3px solid #00d4ff;
-            box-shadow: -5px 0 20px rgba(0, 212, 255, 0.2);
+        .vortex-card {
+            background: rgba(15, 25, 40, 0.4);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .vortex-card:hover {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 40px rgba(255, 204, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        /* 2. Laser Scanline Animation */
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        /* 3. Gold Aura Pulse */
+        .gold-glow-orb {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: -1;
+            animation: pulse-gold 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 0.6; }
+        }
+
+        /* HUD & Typography */
+        .hud-label {
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 10px;
+            color: var(--neon-blue);
+        }
+
+        .gold-text {
+            color: var(--neon-gold);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
         }
 
         .nav-item:hover {
             background: rgba(0, 212, 255, 0.08);
-            color: #00d4ff;
+            color: var(--neon-blue);
             transform: translateX(3px);
-        }
-
-        .font-mono-tech {
-            font-family: 'Space Mono', monospace;
-            letter-spacing: -0.5px;
-        }
-
-        /* 2. Animated HUD Lines (Slow Movement) */
-        @keyframes flow {
-            0% { transform: translateY(0); opacity: 0.1; }
-            50% { opacity: 0.3; }
-            100% { transform: translateY(-100px); opacity: 0.1; }
-        }
-
-        .hud-line {
-            animation: flow 15s linear infinite;
-        }
-
-        /* 3. Tech Corner Elements */
-        .tech-corner {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            color: rgba(0, 212, 255, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#00d4ff" stop-opacity="0" />
-                    <stop offset="50%" stop-color="#00d4ff" stop-opacity="1" />
-                    <stop offset="100%" stop-color="#00d4ff" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-            <g class="hud-line">
-                <rect x="10%" y="0" width="1" height="200" fill="url(#lineGrad)" />
-                <rect x="30%" y="300" width="1" height="150" fill="url(#lineGrad)" />
-                <rect x="60%" y="100" width="1" height="250" fill="url(#lineGrad)" />
-                <rect x="85%" y="400" width="1" height="180" fill="url(#lineGrad)" />
-            </g>
-            <rect x="0" y="20%" width="100%" height="0.5" fill="rgba(0, 212, 255, 0.05)" />
-            <rect x="0" y="50%" width="100%" height="0.5" fill="rgba(0, 212, 255, 0.05)" />
-            <rect x="0" y="80%" width="100%" height="0.5" fill="rgba(0, 212, 255, 0.05)" />
-        </svg>
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="gold-glow-orb top-[-10%] left-[-5%]"></div>
+        <div class="gold-glow-orb bottom-[-20%] right-[-10%]" style="animation-delay: 2s;"></div>
+        <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
     </div>
 
-    <div class="fixed top-28 left-6 tracking-widest tech-corner rotate-90 hidden md:block z-10">
-        LAT: 3.1390° N / LON: 101.6869° E
-    </div>
-    <div class="fixed bottom-10 right-10 tech-corner z-10 hidden md:block">
-        CORE_SYS_ACTIVE // VER: 4.1.2
-    </div>
-
-    <aside class="fixed left-0 top-0 h-full w-20 md:w-64 glass-panel border-r border-white/5 z-50 hidden md:flex flex-col p-6 m-4 md:m-0 rounded-3xl md:rounded-none">
+    <aside class="fixed left-0 top-0 h-full w-20 md:w-64 glass-panel border-r border-white/5 z-50 hidden md:flex flex-col p-6">
         <div class="mb-10 flex items-center gap-3">
-            <div class="w-9 h-9 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-xl shadow-[0_0_20px_#00d4ff]"></div>
-            <span class="font-bold tracking-[0.2em] text-cyan-400 hidden md:block text-sm">VORTEX_OS</span>
+            <div class="w-9 h-9 bg-gradient-to-tr from-yellow-500 to-yellow-200 rounded-xl shadow-[0_0_20px_#ffcc00]"></div>
+            <span class="font-bold tracking-[0.2em] gold-text hidden md:block text-sm italic">VORTEX_OS</span>
         </div>
         
         <nav class="flex-1 space-y-4">
@@ -113,95 +127,102 @@
             <a href="inventory.html" class="nav-item flex items-center gap-4 p-3.5 rounded-xl transition-all text-gray-400">
                 <span class="text-xl">📦</span> <span class="hidden md:block text-sm">Inventory</span>
             </a>
-            <a href="#" class="nav-item flex items-center gap-4 p-3.5 rounded-xl transition-all text-gray-400">
+            <a href="settings.html" class="nav-item flex items-center gap-4 p-3.5 rounded-xl transition-all text-gray-400">
                 <span class="text-xl">⚙️</span> <span class="hidden md:block text-sm">Settings</span>
             </a>
         </nav>
 
-        <div class="mt-auto p-4 glass-panel bg-white/5 rounded-2xl text-[9px] text-cyan-600/60 text-center uppercase tracking-[0.2em] font-mono-tech border border-cyan-500/10">
-            MY-KUL-NODE: ACTIVE
+        <div class="mt-auto p-4 glass-panel bg-white/5 rounded-2xl text-[9px] text-cyan-600/60 text-center uppercase tracking-[0.2em] font-mono border border-cyan-500/10">
+            NODE: MY-KUL-01
         </div>
     </aside>
 
     <main class="relative z-20 md:ml-64 p-6 md:p-10 space-y-10">
         
-        <header class="flex justify-between items-center pb-4 border-b border-white/5">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter">Command Center</h1>
-                <p class="text-gray-500 text-sm mt-1">Authorized Access: Administrator</p>
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/10 pb-8">
+            <div class="space-y-1">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter uppercase italic">Command <span class="gold-text">Center</span></h1>
+                <p class="hud-label mt-1">Authorized Access: Administrator // <span class="text-green-400">Online</span></p>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-[10px] text-cyan-600 font-mono-tech hidden md:block">SYS_TIME: 14:02_UTC</span>
-                <div class="w-14 h-14 rounded-full border-2 border-cyan-500 p-1 cursor-pointer shadow-[0_0_15px_rgba(0,212,255,0.3)] hover:scale-105 transition-all">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=030406&color=00d4ff&font-size=0.4" class="rounded-full avatar" alt="Avatar">
+            
+            <div class="flex items-center gap-6 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <div class="text-right hidden md:block">
+                    <p class="hud-label">Global Traffic</p>
+                    <p class="text-xl font-bold font-mono">1.28 GB/S</p>
+                </div>
+                <div class="h-10 w-[1px] bg-white/10 hidden md:block"></div>
+                <div class="w-14 h-14 rounded-full border-2 border-yellow-500 p-1 shadow-[0_0_15px_rgba(255,204,0,0.3)] hover:scale-105 transition-all cursor-pointer">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=020408&color=ffcc00" class="rounded-full" alt="Avatar">
                 </div>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass-panel p-7 neon-border hover:brightness-110 transition-all cursor-pointer">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-xs text-cyan-600 uppercase font-bold tracking-widest font-mono-tech">Total Revenue</p>
-                    <span class="text-lg text-cyan-400">📈</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="vortex-card p-8 group">
+                <div class="scanline"></div>
+                <p class="hud-label mb-4 flex justify-between items-center text-yellow-500">CORE_FINANCE <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span></p>
+                <h2 class="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Total Revenue</h2>
+                <div class="text-4xl font-black gold-text tracking-tighter mb-4">RM 45,280.00</div>
+                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-yellow-500 h-full w-[75%] shadow-[0_0_10px_#ffcc00]"></div>
                 </div>
-                <h3 class="text-3xl font-bold tracking-tight">RM 45,280<span class="text-gray-600">.00</span></h3>
-                <span class="text-[11px] text-green-400 font-medium">+12.5% <span class="text-gray-600">vs last month</span></span>
             </div>
-            
-            <div class="glass-panel p-7 border-l-3 border-purple-500 hover:brightness-110 transition-all cursor-pointer">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-xs text-purple-400 uppercase font-bold tracking-widest font-mono-tech">Active Users</p>
-                    <span class="text-lg text-purple-400">👥</span>
+
+            <div class="vortex-card p-8">
+                <div class="scanline" style="animation-delay: 1s;"></div>
+                <p class="hud-label mb-4 text-cyan-400">DATA_FLOW_INDEX</p>
+                <h2 class="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Active Users</h2>
+                <div class="text-4xl font-black text-cyan-400 tracking-tighter mb-4">1,204</div>
+                <div class="flex gap-1">
+                    <div class="h-8 w-2 bg-cyan-500/20 rounded-sm"></div>
+                    <div class="h-8 w-2 bg-cyan-500/60 rounded-sm"></div>
+                    <div class="h-8 w-2 bg-cyan-500 rounded-sm shadow-[0_0_10px_#00d4ff]"></div>
                 </div>
-                <h3 class="text-3xl font-bold tracking-tight">1,204</h3>
-                <span class="text-[11px] text-cyan-400 font-medium">84 nodes online</span>
             </div>
-            
-            <div class="glass-panel p-7 border-l-3 border-orange-500 hover:brightness-110 transition-all cursor-pointer">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-xs text-orange-400 uppercase font-bold tracking-widest font-mono-tech">System Health</p>
-                    <span class="text-lg text-orange-400">⚙️</span>
-                </div>
-                <h3 class="text-3xl font-bold tracking-tight text-orange-400">OPTIMAL</h3>
-                <div class="w-full bg-gray-800 h-1.5 mt-4 rounded-full overflow-hidden border border-white/5">
-                    <div class="bg-gradient-to-r from-orange-600 to-orange-400 h-full w-[95%] shadow-[0_0_10px_#f97316]"></div>
-                </div>
+
+            <div class="vortex-card p-8">
+                <div class="scanline" style="animation-delay: 2s;"></div>
+                <p class="hud-label mb-4 text-purple-400">STRATEGIC_INTELLIGENCE</p>
+                <h2 class="text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">System Health</h2>
+                <div class="text-4xl font-black text-purple-400 tracking-tighter mb-4">OPTIMAL</div>
+                <p class="text-[10px] text-gray-500 font-mono mt-2 uppercase tracking-tighter">AI Node: Stable</p>
             </div>
         </div>
 
-        <div class="glass-panel p-7 overflow-hidden">
-            <div class="flex justify-between items-center mb-8">
-                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-[0.2em] font-mono-tech">Recent Node Activity</h4>
-                <button class="text-xs text-cyan-500 hover:text-cyan-300 font-medium">View All →</button>
+        <div class="vortex-card p-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h3 class="text-xl font-bold uppercase tracking-widest italic gold-text">Recent Data Streams</h3>
+                    <p class="hud-label text-[9px]">Infinite Possibilities // Live Node Tracking</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.location.href='pos.html'" class="px-5 py-2 bg-cyan-600/10 border border-cyan-500/50 text-cyan-400 text-[10px] font-bold rounded-lg hover:bg-cyan-500 hover:text-white transition-all">TERMINAL_POS</button>
+                    <button onclick="window.location.href='inventory.html'" class="px-5 py-2 bg-yellow-600/10 border border-yellow-500/50 text-yellow-500 text-[10px] font-bold rounded-lg hover:bg-yellow-500 hover:text-black transition-all">INVENTORY_DB</button>
+                </div>
             </div>
+
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
+                <table class="w-full text-left font-mono text-xs">
                     <thead>
-                        <tr class="text-gray-600 border-b border-white/5 text-[11px] uppercase tracking-wider font-mono-tech">
-                            <th class="pb-5 pr-4">Transaction_ID</th>
-                            <th class="pb-5 pr-4">Module</th>
-                            <th class="pb-5 pr-4">Amount</th>
-                            <th class="pb-5 pr-4">Status</th>
+                        <tr class="text-gray-500 border-b border-white/10 uppercase italic">
+                            <th class="pb-4">Stream_ID</th>
+                            <th class="pb-4">Module</th>
+                            <th class="pb-4">Value</th>
+                            <th class="pb-4 text-right">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-300 divide-y divide-white/[0.03]">
-                        <tr>
-                            <td class="py-5 pr-4 font-mono-tech text-xs text-cyan-500">#VTX-9921</td>
-                            <td class="py-5 pr-4">Vortex Pay Terminal</td>
-                            <td class="py-5 pr-4 font-semibold">RM 150.00</td>
-                            <td class="py-4"><span class="px-3 py-1 bg-green-950 text-green-300 border border-green-700/50 rounded-full text-[10px] font-bold tracking-wide">SUCCESS</span></td>
+                    <tbody class="text-gray-300 divide-y divide-white/5">
+                        <tr class="hover:bg-white/5 transition-all">
+                            <td class="py-5 font-bold text-yellow-500">#VTX-9921</td>
+                            <td class="py-5 text-cyan-400">Vortex_Pay_v4</td>
+                            <td class="py-5 text-lg font-black tracking-tighter italic">RM 150.00</td>
+                            <td class="py-5 text-right"><span class="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/50 rounded-full text-[9px] font-bold">EXECUTED</span></td>
                         </tr>
-                        <tr>
-                            <td class="py-5 pr-4 font-mono-tech text-xs text-cyan-500">#VTX-9922</td>
-                            <td class="py-5 pr-4">Inventory Update</td>
-                            <td class="py-5 pr-4 font-semibold">--</td>
-                            <td class="py-4"><span class="px-3 py-1 bg-blue-950 text-blue-300 border border-blue-700/50 rounded-full text-[10px] font-bold tracking-wide">UPDATED</span></td>
-                        </tr>
-                         <tr>
-                            <td class="py-5 pr-4 font-mono-tech text-xs text-cyan-500">#VTX-9923</td>
-                            <td class="py-5 pr-4">Cloud Node Activation</td>
-                            <td class="py-5 pr-4 font-semibold">RM 2,500.00</td>
-                            <td class="py-4"><span class="px-3 py-1 bg-green-950 text-green-300 border border-green-700/50 rounded-full text-[10px] font-bold tracking-wide">SUCCESS</span></td>
+                        <tr class="hover:bg-white/5 transition-all">
+                            <td class="py-5 font-bold text-yellow-500">#VTX-9922</td>
+                            <td class="py-5 text-cyan-400">Inventory_Flow</td>
+                            <td class="py-5 text-lg font-black tracking-tighter italic">--</td>
+                            <td class="py-5 text-right"><span class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/50 rounded-full text-[9px] font-bold">SYNCED</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -210,11 +231,16 @@
 
     </main>
 
-    <div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] glass-panel p-5 flex justify-around items-center z-50 border border-cyan-500/10 shadow-[0_15px_50px_-10px_rgba(0,212,255,0.3)]">
+    <div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] glass-panel p-5 flex justify-around items-center z-50 border border-cyan-500/10 shadow-[0_15px_50px_-10px_rgba(0,212,255,0.3)] rounded-3xl">
         <a href="dashboard.html" class="text-2xl text-cyan-500 hover:scale-110 transition-all">📊</a>
-        <a href="pos.html" class="text-2xl text-gray-600 hover:text-gray-400 hover:scale-110 transition-all">💳</a>
-        <a href="inventory.html" class="text-2xl text-gray-600 hover:text-gray-400 hover:scale-110 transition-all">📦</a>
-        <a href="#" class="text-2xl text-gray-600 hover:text-gray-400 hover:scale-110 transition-all">⚙️</a>
+        <a href="pos.html" class="text-2xl text-gray-600 hover:text-gray-400 transition-all">💳</a>
+        <a href="inventory.html" class="text-2xl text-gray-600 hover:text-gray-400 transition-all">📦</a>
+        <a href="settings.html" class="text-2xl text-gray-600 hover:text-gray-400 transition-all">⚙️</a>
+    </div>
+
+    <div class="fixed bottom-10 left-10 hud-label text-[8px] opacity-20 hidden md:block">
+        [SYSTEM_POWER_V2.0]<br>
+        LOC: GEMENCHEH_NODE_01
     </div>
 
 </body>
